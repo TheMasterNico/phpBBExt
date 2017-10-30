@@ -1,0 +1,33 @@
+{# Reputation System [TheMasterNico] #}
+{# Modificando la parte del perfil que se muestra al enviar un mensaje #}
+<dd class="profile-reputation">
+	<strong>
+		{# Titulo #}
+		{{ lang('REPUTATION') }}{{ lang('COLON') }}
+	</strong>
+	<spam id="TheRepOf-{{ postrow.POSTER_ID }}">{{ postrow.POST_USER_REP }}</spam>
+	{% if postrow.REPUTATIONED == 0 %}
+		{% if S_USERNAME != postrow.POST_AUTHOR %} {# -->Evitamos que se aumente la rep a si mismo #}
+			<spam id="UpdateRep-{{ postrow.POSTER_ID }}">
+				<a href="javascript:void(0);" title="{{ lang('ADD_REP')}}" id="AddRep-{{ postrow.POSTER_ID }}" onclick="ShowBoxRepAdd({{ postrow.POSTER_ID }})">
+					<img src="./ext/TheMasterNico/RepExtPHPBB/styles/all/theme/images/Add.png" alt="{{ lang('ADD_REP')}}" />{# Icono de aumentar rep #}
+				</a>
+
+				<a href="javascript:void(0);" title="{{ lang('REM_REP')}}"  id="RemRep-{{ postrow.POSTER_ID }}" onclick="ShowBoxRepRem({{ postrow.POSTER_ID }})">
+					<img src="./ext/TheMasterNico/RepExtPHPBB/styles/all/theme/images/Remove.png" alt="{{ lang('REM_REP')}}"/>{# Icono de disminuir rep #}
+				</a>
+
+				{# Caja para aumentar rep #}
+				<div class="bg2" style="display: none;" id="AddTo-{{ postrow.POSTER_ID }}" flagtohide="BoxRep">
+					<textarea id="TextRepAdd-{{ postrow.POSTER_ID }}" rows="5" cols="10" placeholder="Razón para aumentar reputación a {{ postrow.POST_AUTHOR }}"></textarea>
+					<input type="submit" id="SendRepA-{{ postrow.POSTER_ID }}" value="Aumentar" onclick="SendRep(1, {{ postrow.POSTER_ID }}, {{ TOPIC_ID }}, '{{ S_USERNAME }}', {{ FORUM_ID }}, {{ postrow.POST_ID }})" />
+				</div>
+				{# Caja para disminuir rep #}
+				<div class="bg2" style="display: none;" id="RemTo-{{ postrow.POSTER_ID }}" flagtohide="BoxRep">
+					<textarea id="TextRepRem-{{ postrow.POSTER_ID }}" rows="5" cols="10" placeholder="Razón para disminuir reputación a {{ postrow.POST_AUTHOR }}"></textarea>
+					<input type="submit" id="SendRepR-{{ postrow.POSTER_ID }}" value="Disminuir" onclick="SendRep(0, {{ postrow.POSTER_ID }}, {{ TOPIC_ID }}, '{{ S_USERNAME }}', {{ FORUM_ID }}, {{ postrow.POST_ID }})"/>
+				</div>
+			</spam>
+		{% endif %}
+	{% endif %}
+</dd>

@@ -1,0 +1,41 @@
+{# Reputation System [TheMasterNico] #}
+{# Agregar un panel cuando se ve el perfil de un usuario #}
+
+<div class="panel">
+		<h3>
+			{{ lang('REPUTATION') }}
+		</h3>
+
+		<div class="">
+			<div class="signature standalone" id="ComentariosRep">
+				<!-- BEGIN reputation -->
+				<div class='post has-profile rep-comments-list {% if reputation.S_ROW_COUNT is odd %}bg2{% else %}bg1{% endif %}'>
+					<div class="inner">
+						<div class="postbody">
+							<p class="author">
+								<a class="unread" href="{{ BOARD_URL }}viewtopic.php?p={{ reputation.POST }}#p{{ reputation.POST }}">
+									<i class="icon fa-file fa-fw icon-md" aria-hidden="true"></i>
+									<span class="sr-only"></span>
+								</a>
+								{% if reputation.ACTION == 1 %}+{% else %}-{% endif %}{{ reputation.POWER }}
+								<span class="responsive-hide">{L_POST_BY_AUTHOR} <strong>{{ reputation.USERNAME }}</strong> &raquo; </span>{{ reputation.TIME }}
+							</p>
+							<p class="content">
+								{{ reputation.COMENTARIO }}
+							</p>
+						</div>
+						<dl class="postprofile">
+							<p>
+								{% if reputation.AVATAR %}
+									{{ reputation.AVATAR }}
+								{% else %}
+									<img src="{T_THEME_PATH}/images/no_avatar.gif" alt="" />
+								{% endif %}
+							</p>
+						</dl>
+					</div>
+				</div>
+				<!-- END reputation -->
+			</>
+		</div>
+</div>

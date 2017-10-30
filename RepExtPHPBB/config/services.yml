@@ -1,0 +1,16 @@
+services:
+    TheMasterNico.RepExtPHPBB.controller:
+        class: TheMasterNico\RepExtPHPBB\controller\show_user_rep
+        arguments:
+            - @controller.helper
+            - @template
+            - @dbal.conn
+            - @request
+    TheMasterNico.RepExtPHPBB.listener:
+        class: TheMasterNico\RepExtPHPBB\event\main_listener
+        arguments:
+            - @dbal.conn
+            - @user
+            - @template
+        tags:
+            - { name: event.listener }

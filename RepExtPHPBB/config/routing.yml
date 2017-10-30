@@ -1,0 +1,3 @@
+TheMasterNico_RepExtPHPBB_controller:
+    path: /rep/{metodo}/
+    defaults: { _controller: TheMasterNico.RepExtPHPBB.controller:handle }

@@ -1,0 +1,88 @@
+{% INCLUDEJS '@TheMasterNico_RepExtPHPBB/ScriptRep.js' %}
+<script>
+function ShowBoxRepAdd(PosterID)
+{
+	$('div[flagtohide="BoxRep"]').hide();
+    $('#AddTo-'+PosterID).show();
+}
+function ShowBoxRepRem(PosterID)
+{
+	$('div[flagtohide="BoxRep"]').hide();
+    $('#RemTo-'+PosterID).show();
+}
+
+function SendRep(AddorRem, PosterID, TopicID, SenderName, ForumID, PostID)
+{
+	{# AddorRem 0: Disminuir #}
+	{# PosterID es el que recibira la rep #}
+	{# TopicID es el tema donde se hará el envio de rep #}
+	{# SenderName es el nombre del usuario que da la rep #}
+	{# ForumID el foro donde esta el tema #}
+	{# PostID el mensaje dentro del tema por el cual se enviara rep #}
+	{#  #}
+	{#  #}
+	var getTextAreaID = '';
+	var what = '';
+	//var areatexto = '';
+	if(AddorRem == 0) {# Disminuir rep #}
+	{
+		what = 'rem';
+		getTextAreaID = 'TextRepRem-'; {# TextRepRem-{{ postrow.POSTER_ID }} #}
+		//areatexto = '#RemTo-'+PosterID;
+	}
+	else
+	{
+		what = 'add';
+		getTextAreaID = 'TextRepAdd-'; {# TextRepRem-{{ postrow.POSTER_ID }} #}
+	//	areatexto = '#AddTo-'+PosterID;
+	}
+	var mensaje = $("#" + getTextAreaID + PosterID).val();
+	console.log("{{ BOARD_URL }}app.php/rep/"+what+"/");
+	$.ajax(
+		{
+			type: 'POST',
+			url: "{{ BOARD_URL }}app.php/rep/"+what+"/",
+			beforeSend: function (data)
+			{
+				//console.log('... cargando...' + $("#TheRepOf-"+PosterID).text());
+				$('#UpdateRep-'+PosterID).hide();
+			},
+			data: {
+				username: SenderName,
+				action: AddorRem,
+				poster: PosterID,
+				topic:	TopicID,
+				forum: ForumID,
+				post: PostID,
+				msg: mensaje,
+				ActualRep: $("#TheRepOf-"+PosterID).text(),
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				{# si hay un error mostramos un mensaje #}
+				console.log('Tenemos problemas Houston');
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+				$('#UpdateRep-'+PosterID).show();
+			},
+			success: function (responseText, textStatus, jqXHR) {
+				console.log('Actualziando rep.');
+				//console.log(responseText);
+				var isUpdate = $(responseText).find('pandemia').text();
+				var NewRep = $(responseText).find('garo').text();
+				console.log("data: " + isUpdate + ':-:' + NewRep);
+				{# responseText contiene el source de la página web #}
+				//console.log(textStatus);
+				//console.log(jqXHR);
+				if(isUpdate == "1-add" || isUpdate == "0-rem") {# Se aumento/disminuyo la rep al usuario #}
+				{
+					{# Como si se actualizo, ya no se mostrará más. Lo ocultamos inmediatamente #}
+					$('#UpdateRep-'+PosterID).hide();
+					$("#TheRepOf-"+PosterID).text(NewRep); {# Actualizamos el campo de la rep por la nueva rep #}
+				}
+			},
+		}
+	);
+}
+
+</script>
