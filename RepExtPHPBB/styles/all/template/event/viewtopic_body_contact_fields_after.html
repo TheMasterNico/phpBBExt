@@ -19,12 +19,12 @@
 
 				{# Caja para aumentar rep #}
 				<div class="bg2" style="display: none;" id="AddTo-{{ postrow.POSTER_ID }}" flagtohide="BoxRep">
-					<textarea id="TextRepAdd-{{ postrow.POSTER_ID }}" rows="5" cols="10" placeholder="Razón para aumentar reputación a {{ postrow.POST_AUTHOR }}"></textarea>
+					<textarea class="col-sm-12" id="TextRepAdd-{{ postrow.POSTER_ID }}" rows="5" cols="20" placeholder="Razón para aumentar reputación a {{ postrow.POST_AUTHOR }}"></textarea>
 					<input type="submit" id="SendRepA-{{ postrow.POSTER_ID }}" value="Aumentar" onclick="SendRep(1, {{ postrow.POSTER_ID }}, {{ TOPIC_ID }}, '{{ S_USERNAME }}', {{ FORUM_ID }}, {{ postrow.POST_ID }})" />
 				</div>
 				{# Caja para disminuir rep #}
 				<div class="bg2" style="display: none;" id="RemTo-{{ postrow.POSTER_ID }}" flagtohide="BoxRep">
-					<textarea id="TextRepRem-{{ postrow.POSTER_ID }}" rows="5" cols="10" placeholder="Razón para disminuir reputación a {{ postrow.POST_AUTHOR }}"></textarea>
+					<textarea class="col-sm-12" id="TextRepRem-{{ postrow.POSTER_ID }}" rows="5" cols="20" placeholder="Razón para disminuir reputación a {{ postrow.POST_AUTHOR }}"></textarea>
 					<input type="submit" id="SendRepR-{{ postrow.POSTER_ID }}" value="Disminuir" onclick="SendRep(0, {{ postrow.POSTER_ID }}, {{ TOPIC_ID }}, '{{ S_USERNAME }}', {{ FORUM_ID }}, {{ postrow.POST_ID }})"/>
 				</div>
 			</spam>

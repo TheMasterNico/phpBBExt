@@ -18,7 +18,7 @@
 									<span class="sr-only"></span>
 								</a>
 								{% if reputation.ACTION == 1 %}+{% else %}-{% endif %}{{ reputation.POWER }}
-								<span class="responsive-hide">{L_POST_BY_AUTHOR} <strong>{{ reputation.USERNAME }}</strong> &raquo; </span>{{ reputation.TIME }}
+								<span class="responsive-hide">{{ lang('POST_BY_AUTHOR') }} <strong>{{ reputation.USERNAME }}</strong> &raquo; </span>{{ reputation.TIME }}
 							</p>
 							<p class="content">
 								{{ reputation.COMENTARIO }}

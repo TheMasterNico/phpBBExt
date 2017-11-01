@@ -1,0 +1,49 @@
+{# Reputation System [TheMasterNico] #}
+{# Agregar un panel cuando se ve el perfil de un usuario #}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			{{ lang('REPUTATION') }}
+		</h3>
+	</div>
+	<div class="panel-body">
+		<!-- BEGIN reputation -->
+			<div class="panel post-body">
+				<div style="padding: 10px 20px; margin: 0 0 20px; border-left: 5px solid #eee; border-left: 3px solid {% if reputation.ACTION == 1 %}green{% else %}red{% endif %};">
+						<div class="panel-body no-padding badger-{% if reputation.ACTION == 1 %}success" data-badger="+{% else %}danger" data-badger="-{% endif %}{{ reputation.POWER }}">
+							<div class="row no-margin post-flex">
+								<div class="col-md-3 col-xs-12 post-info post-info-left hidden-xs ">
+									<div class="row no-margin-xs">
+										<dl class="col-sm-12 col-xs-6 no-margin-xs no-padding-xs">
+											<dt class="avatar text-center rounded">
+												{% if reputation.AVATAR %}
+													{{ reputation.AVATAR }}
+												{% else %}
+													<img src="http://i.imgur.com/vaUVTlF.jpg" alt="No avatar" />
+												{% endif %}
+											</dt>
+										</dl>
+									</div>
+								</div>
+								<div class="col-md-9 col-xs-12 post-content">
+									<div class="row post-head no-margin-bottom">
+										<div class="col-md-6 author">
+											<a class="unread" href="{{ BOARD_URL }}viewtopic.php?p={{ reputation.POST }}#p{{ reputation.POST }}">
+												<i class="fa fa-file fa-fw icon-md" aria-hidden="true"></i>
+												<span class="sr-only"></span>
+											</a>
+											<span class="responsive-hide">{{ lang('POST_BY_AUTHOR') }} <strong>{{ reputation.USERNAME }}</strong> &raquo; </span>{{ reputation.TIME }}
+										</div>
+									</div>
+									<div class="content">
+										{{ reputation.COMENTARIO }}
+									</div>
+								</div>
+							</div>
+						</div>
+				</div>
+			</div>
+			<hr />
+		<!-- END reputation -->
+	</div>
+</div>
