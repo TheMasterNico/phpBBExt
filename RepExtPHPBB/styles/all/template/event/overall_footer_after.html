@@ -1,15 +1,40 @@
 {% INCLUDEJS '@TheMasterNico_RepExtPHPBB/ScriptRep.js' %}
 <script>
+
+$( "a[id^=AddRep-]" ).click(function() {
+	$('div[flagtohide="BoxRep"]').hide();
+	$('#AddTo-'+$(this).attr('poster')).show();
+});
+
+$( "a[id^=RemRep-]" ).click(function() {
+	$('div[flagtohide="BoxRep"]').hide();
+	$('#RemTo-'+$(this).attr('poster')).show();
+});
+
 function ShowBoxRepAdd(PosterID)
 {
-	$('div[flagtohide="BoxRep"]').hide();
-    $('#AddTo-'+PosterID).show();
 }
 function ShowBoxRepRem(PosterID)
 {
-	$('div[flagtohide="BoxRep"]').hide();
-    $('#RemTo-'+PosterID).show();
 }
+
+$( "input[id^=SendRepA-]" ).click(function() {
+	var PosterID 	= $(this).attr('poster');
+	var TopicID 	= $(this).attr('topic');
+	var SenderName 	= $(this).attr('username');
+	var ForumID 	= $(this).attr('forum');
+	var PostID 		= $(this).attr('post');
+	SendRep(1, PosterID, TopicID, SenderName, ForumID, PostID);
+});
+
+$( "input[id^=SendRepR-]" ).click(function() {
+	var PosterID 	= $(this).attr('poster');
+	var TopicID 	= $(this).attr('topic');
+	var SenderName 	= $(this).attr('username');
+	var ForumID 	= $(this).attr('forum');
+	var PostID 		= $(this).attr('post');
+	SendRep(0, PosterID, TopicID, SenderName, ForumID, PostID);
+});
 
 function SendRep(AddorRem, PosterID, TopicID, SenderName, ForumID, PostID)
 {
@@ -37,6 +62,11 @@ function SendRep(AddorRem, PosterID, TopicID, SenderName, ForumID, PostID)
 	//	areatexto = '#AddTo-'+PosterID;
 	}
 	var mensaje = $("#" + getTextAreaID + PosterID).val();
+	if(mensaje == "")
+	{
+		$("#" + getTextAreaID + PosterID).parent().addClass("has-error");
+		return;
+	}
 	console.log("{{ BOARD_URL }}app.php/rep/"+what+"/");
 	$.ajax(
 		{
