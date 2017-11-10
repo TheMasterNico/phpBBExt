@@ -3,16 +3,16 @@
 
 $( "a[id^=AddRep-]" ).click(function() {
 	$('div[flagtohide="BoxRep"]').hide();
-	console.log('div[id="AddTo-'+$(this).attr('poster')+'"][post="'+$(this).attr('post')+'"]');
+	//console.log('div[id="AddTo-'+$(this).attr('poster')+'"][post="'+$(this).attr('post')+'"]');
 	//$('#AddTo-'+$(this).attr('poster')).show();
-	$('div[id="AddTo-'+$(this).attr('poster')+'"][post="'+$(this).attr('post')+'"]').show();
+	$('div[id="AddTo-' + $(this).attr('poster') + '"][post="' + $(this).attr('post') + '"]').show();
 });
 
 $( "a[id^=RemRep-]" ).click(function() {
 	$('div[flagtohide="BoxRep"]').hide();
-	console.log('div[id="RemTo-'+$(this).attr('poster')+'"][post="'+$(this).attr('post')+'"]');
+	//console.log('div[id="RemTo-' + $(this).attr('poster') + '"][post="' + $(this).attr('post') + '"]');
 	//$('#RemTo-'+$(this).attr('poster')).show();
-	$('div[id="RemTo-'+$(this).attr('poster')+'"][post="'+$(this).attr('post')+'"]').show();
+	$('div[id="RemTo-' + $(this).attr('poster') + '"][post="' + $(this).attr('post') + '"]').show();
 });
 
 function ShowBoxRepAdd(PosterID)
@@ -65,21 +65,22 @@ function SendRep(AddorRem, PosterID, TopicID, SenderName, ForumID, PostID)
 		getTextAreaID = 'TextRepAdd-'; {# TextRepRem-{{ postrow.POSTER_ID }} #}
 	//	areatexto = '#AddTo-'+PosterID;
 	}
-	var mensaje = $("#" + getTextAreaID + PosterID).val();
+	//console.log( 'textarea[id="' + getTextAreaID + PosterID +'"][post="'+ PostID +'"]'  );
+	var mensaje = $('textarea[id="' + getTextAreaID + PosterID +'"][post="'+ PostID +'"]').val();
 	if(mensaje == "")
 	{
-		$("#" + getTextAreaID + PosterID).parent().addClass("has-error");
+		$('textarea[id="' + getTextAreaID + PosterID +'"][post="'+ PostID +'"]').parent().addClass("has-error");
 		return;
 	}
-	console.log("{{ BOARD_URL }}app.php/rep/"+what+"/");
+	//console.log("{{ BOARD_URL }}app.php/rep/"+what+"/");
 	$.ajax(
 		{
 			type: 'POST',
 			url: "{{ BOARD_URL }}app.php/rep/"+what+"/",
 			beforeSend: function (data)
 			{
-				//console.log('... cargando...' + $("#TheRepOf-"+PosterID).text());
-				$('#UpdateRep-'+PosterID).hide();
+				//console.log( 'spam[id="UpdateRep-' + PosterID +'"][post="'+ PostID +'"]' );
+				$('spam[id="UpdateRep-' + PosterID +'"][post="'+ PostID +'"]').hide();
 			},
 			data: {
 				username: SenderName,
@@ -97,11 +98,11 @@ function SendRep(AddorRem, PosterID, TopicID, SenderName, ForumID, PostID)
 				console.log(jqXHR);
 				console.log(textStatus);
 				console.log(errorThrown);
-				$('#UpdateRep-'+PosterID).show();
+				$('spam[id="UpdateRep-' + PosterID +'"][post="'+ PostID +'"]').show();
 			},
 			success: function (responseText, textStatus, jqXHR) {
 				console.log('Actualziando rep.');
-				console.log(responseText);
+				//console.log(responseText);
 				var isUpdate = $(responseText).find('pandemia').text();
 				var NewRep = $(responseText).find('garo').text();
 				console.log("data: " + isUpdate + ':-:' + NewRep);
@@ -111,7 +112,7 @@ function SendRep(AddorRem, PosterID, TopicID, SenderName, ForumID, PostID)
 				if(isUpdate == "1-add" || isUpdate == "0-rem") {# Se aumento/disminuyo la rep al usuario #}
 				{
 					{# Como si se actualizo, ya no se mostrará más. Lo ocultamos inmediatamente #}
-					$('#UpdateRep-'+PosterID).hide();
+					$('spam[id="UpdateRep-' + PosterID +'"][post="'+ PostID +'"]').hide();
 					$("#TheRepOf-"+PosterID).text(NewRep); {# Actualizamos el campo de la rep por la nueva rep #}
 				}
 			},
