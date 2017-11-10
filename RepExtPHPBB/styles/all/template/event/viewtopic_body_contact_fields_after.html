@@ -9,21 +9,21 @@
 	{% if postrow.REPUTATIONED == 0 %}
 		{% if S_USERNAME != postrow.POST_AUTHOR %} {# -->Evitamos que se aumente la rep a si mismo #}
 			<spam id="UpdateRep-{{ postrow.POSTER_ID }}">
-				<a href="javascript:void(0);" title="{{ lang('ADD_REP')}}" id="AddRep-{{ postrow.POSTER_ID }}" poster="{{ postrow.POSTER_ID }}">
-					<img src="./ext/TheMasterNico/RepExtPHPBB/styles/all/theme/images/Add.png" alt="{{ lang('ADD_REP')}}" />{# Icono de aumentar rep #}
+				<a href="javascript:void(0);" title="{{ lang('ADD_REP')}}" id="AddRep-{{ postrow.POSTER_ID }}" poster="{{ postrow.POSTER_ID }}" post="{{ postrow.POST_ID }}">
+					<img style="width: 2em;" src="./ext/TheMasterNico/RepExtPHPBB/styles/all/theme/images/Add.png" alt="{{ lang('ADD_REP')}}" />{# Icono de aumentar rep #}
 				</a>
 
-				<a href="javascript:void(0);" title="{{ lang('REM_REP')}}"  id="RemRep-{{ postrow.POSTER_ID }}" poster="{{ postrow.POSTER_ID }}">
-					<img src="./ext/TheMasterNico/RepExtPHPBB/styles/all/theme/images/Remove.png" alt="{{ lang('REM_REP')}}"/>{# Icono de disminuir rep #}
+				<a href="javascript:void(0);" title="{{ lang('REM_REP')}}"  id="RemRep-{{ postrow.POSTER_ID }}" poster="{{ postrow.POSTER_ID }}" post="{{ postrow.POST_ID }}">
+					<img style="width: 2em;" src="./ext/TheMasterNico/RepExtPHPBB/styles/all/theme/images/Remove.png" alt="{{ lang('REM_REP')}}"/>{# Icono de disminuir rep #}
 				</a>
 
 				{# Caja para aumentar rep #}
-				<div class="form-group bg2" style="display: none;" id="AddTo-{{ postrow.POSTER_ID }}" flagtohide="BoxRep">
+				<div class="form-group bg2" style="display: none;" id="AddTo-{{ postrow.POSTER_ID }}" flagtohide="BoxRep" post="{{ postrow.POST_ID }}">
 					<textarea data-toggle="tooltip" title="Ingresa algún mensaje" class="form-control col-sm-12" id="TextRepAdd-{{ postrow.POSTER_ID }}" rows="5" cols="20" placeholder="Razón para aumentar reputación a {{ postrow.POST_AUTHOR }}"></textarea>
 					<input class="form-control btn btn-default" type="submit" id="SendRepA-{{ postrow.POSTER_ID }}" value="Aumentar" poster="{{ postrow.POSTER_ID }}" topic="{{ TOPIC_ID }}" username="{{ S_USERNAME }}" forum="{{ FORUM_ID }}" post="{{ postrow.POST_ID }}" />
 				</div>
 				{# Caja para disminuir rep #}
-				<div class="form-group bg2" style="display: none;" id="RemTo-{{ postrow.POSTER_ID }}" flagtohide="BoxRep">
+				<div class="form-group bg2" style="display: none;" id="RemTo-{{ postrow.POSTER_ID }}" flagtohide="BoxRep" post="{{ postrow.POST_ID }}">
 					<textarea data-toggle="tooltip" title="Ingresa algún mensaje" class="form-control col-sm-12" id="TextRepRem-{{ postrow.POSTER_ID }}" rows="5" cols="20" placeholder="Razón para disminuir reputación a {{ postrow.POST_AUTHOR }}"></textarea>
 					<input class="form-control btn btn-default" type="submit" id="SendRepR-{{ postrow.POSTER_ID }}" value="Disminuir" poster="{{ postrow.POSTER_ID }}" topic="{{ TOPIC_ID }}" username="{{ S_USERNAME }}" forum="{{ FORUM_ID }}" post="{{ postrow.POST_ID }}"/>
 				</div>

@@ -3,12 +3,16 @@
 
 $( "a[id^=AddRep-]" ).click(function() {
 	$('div[flagtohide="BoxRep"]').hide();
-	$('#AddTo-'+$(this).attr('poster')).show();
+	console.log('div[id="AddTo-'+$(this).attr('poster')+'"][post="'+$(this).attr('post')+'"]');
+	//$('#AddTo-'+$(this).attr('poster')).show();
+	$('div[id="AddTo-'+$(this).attr('poster')+'"][post="'+$(this).attr('post')+'"]').show();
 });
 
 $( "a[id^=RemRep-]" ).click(function() {
 	$('div[flagtohide="BoxRep"]').hide();
-	$('#RemTo-'+$(this).attr('poster')).show();
+	console.log('div[id="RemTo-'+$(this).attr('poster')+'"][post="'+$(this).attr('post')+'"]');
+	//$('#RemTo-'+$(this).attr('poster')).show();
+	$('div[id="RemTo-'+$(this).attr('poster')+'"][post="'+$(this).attr('post')+'"]').show();
 });
 
 function ShowBoxRepAdd(PosterID)
@@ -97,7 +101,7 @@ function SendRep(AddorRem, PosterID, TopicID, SenderName, ForumID, PostID)
 			},
 			success: function (responseText, textStatus, jqXHR) {
 				console.log('Actualziando rep.');
-				//console.log(responseText);
+				console.log(responseText);
 				var isUpdate = $(responseText).find('pandemia').text();
 				var NewRep = $(responseText).find('garo').text();
 				console.log("data: " + isUpdate + ':-:' + NewRep);

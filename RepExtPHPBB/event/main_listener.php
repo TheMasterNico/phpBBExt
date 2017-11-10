@@ -51,8 +51,20 @@ class main_listener implements EventSubscriberInterface
 			'core.memberlist_prepare_profile_data'			=> 'get_user_rep_data', // Solo en el memberlist
 			'core.viewtopic_cache_user_data'				=> 'get_rep_data_from_db',
 			'core.viewtopic_modify_post_row'				=> 'post_row_reputation', // En los mensajes del tema
-			//'core.user_setup'								=> 'post_row_reputation',
+			'core.modify_user_rank'							=>	'change_user_rank',
 		);
+	}
+
+	public function change_user_rank($event)
+	{
+		/*
+		*
+		* Modificamos los "mensajes" totales del usuario. LE asignamos la rep que tiene actualmente. posts = rep
+		* Así entonces el mismo sistema del foro le pondrá el rango adecuado
+		*
+		*/
+		$event['user_posts'] = $event['user_data']['user_rep'];
+		//echo "<pre>".print_r($event['user_posts'], true)."</pre>";
 	}
 
 	public function load_language_file($event)
@@ -148,7 +160,6 @@ class main_listener implements EventSubscriberInterface
 		/*
 			POST_USER_REP tendrá el valor de "user_rep" de la base de datos
 		*/
-
 		$event['post_row'] = $post_row;
 		//echo "<pre>".print_r($post_row, true)."</pre>";
 	}

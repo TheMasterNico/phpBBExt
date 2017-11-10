@@ -6,6 +6,7 @@ services:
             - @template
             - @dbal.conn
             - @request
+            - @log
     TheMasterNico.RepExtPHPBB.listener:
         class: TheMasterNico\RepExtPHPBB\event\main_listener
         arguments:

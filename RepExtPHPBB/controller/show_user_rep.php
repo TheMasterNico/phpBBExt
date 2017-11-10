@@ -35,6 +35,9 @@ class show_user_rep
 	/** @var \phpbb\request\request */
 	protected $request;
 
+	/** @var \phpbb\log\log */
+	protected $log;
+
 	/**
 	 * Constructor
 	 *
@@ -44,12 +47,13 @@ class show_user_rep
 	 *
 	 * Cargamos la clase helper que tiene la funcion render
 	 */
-	public function __construct(\phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request)
+	public function __construct(\phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, \phpbb\log\log $log)
 	{
 		$this->helper = $helper;
         $this->template = $template;
 		$this->db = $db;
 		$this->request = $request;
+		$this->log = $log;
 	}
 
 	/**
@@ -120,6 +124,9 @@ class show_user_rep
 
 			$this->template->assign_var('CAN_UPDATE_REP', $action.'-'.$metodo);
 			$this->template->assign_var('NEW_REP', ($action)?($actualrep+1):($actualrep-1));
+			$QueHizo = ($action)?("Aumento"):("Disminuyo");
+			$this->log->add('user', $user_id, '192.168.1.2', 'ADD_OR_DEL_REP', false, array('reportee_id' => $poster, $QueHizo));
+
 			//return $metodo;
 			return $this->helper->render('view_members_rep.html', $username);
 			/*
