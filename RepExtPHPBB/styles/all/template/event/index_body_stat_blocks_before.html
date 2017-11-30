@@ -1,0 +1,24 @@
+<div class="stat-block online-list">
+		<h3>
+			{{ lang('TOP_LIST_TITLE') }}
+		</h3>
+		<div style="overflow: hidden;">
+			{% if loops.toplist %}
+			    {% for top in loops.toplist %}
+					<div style="float: left; padding: 0.7em;">
+						{% if top.AVATAR %}
+							{{ top.AVATAR }}
+						{% else %}
+							<img src="{T_THEME_PATH}/images/no_avatar.gif" alt="Sin avatar" />
+						{% endif %}
+						<br />
+				        {{ top.USERNAME }}
+						<br />
+						<strong>{{ lang('REPUTATION') }}{{ lang('COLON') }}</strong> {{ top.REP}}
+					</div>
+			    {% else %}
+			        Sin toplist
+			    {% endfor %}
+			{% endif %}
+		</div>
+</div>

@@ -124,8 +124,19 @@ class show_user_rep
 
 			$this->template->assign_var('CAN_UPDATE_REP', $action.'-'.$metodo);
 			$this->template->assign_var('NEW_REP', ($action)?($actualrep+1):($actualrep-1));
+
+
 			$QueHizo = ($action)?("Aumento"):("Disminuyo");
-			$this->log->add('user', $user_id, '192.168.1.2', 'ADD_OR_DEL_REP', false, array('reportee_id' => $poster, $QueHizo));
+
+			if (getenv('HTTP_X_FORWARDED_FOR')) {
+		        $ipaddress = $this->request->server('HTTP_X_FORWARDED_FOR');
+		        $pipaddress = $this->request->server('REMOTE_ADDR');
+		        //echo "Tu IP es: ".$ipaddress. " (vÃ­a $pipaddress)" ;
+		    } else {
+		        $ipaddress = $this->request->server('REMOTE_ADDR');
+		        //echo "Tu IP es: $ipaddress";
+			}
+			$this->log->add('user', $user_id, $ipaddress, 'ADD_OR_DEL_REP', false, array('reportee_id' => $poster, $QueHizo));
 
 			//return $metodo;
 			return $this->helper->render('view_members_rep.html', $username);

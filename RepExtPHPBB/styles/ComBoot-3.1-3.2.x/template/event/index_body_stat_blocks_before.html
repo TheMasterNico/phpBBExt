@@ -1,0 +1,42 @@
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<i class="fa fa-globe"></i>
+			{{ lang('TOP_LIST_TITLE') }}
+		</h3>
+	</div>
+	<div class="panel-body">
+	{% if loops.toplist %}
+		{% for top in loops.toplist %}
+		<div class="panel post-body"  style="float: left;">
+			<div style="padding: 0.7em 0.8em;">
+					<div class="panel-body no-padding badger-success" data-badger="{{ top.POS }}">
+						<div class="row no-margin post-flex">
+							<div class="col-md-12 col-xs-12 post-info">
+								<div class="row no-margin-xs">
+									<dl class="">
+										<dt class="avatar text-center rounded">
+											{% if top.AVATAR %}
+												{{ top.AVATAR }}
+											{% else %}
+												<img src="http://i.imgur.com/vaUVTlF.jpg" alt="No avatar" />
+											{% endif %}
+										</dt>
+									</dl>
+									<dl>
+										{{ top.USERNAME }}
+										<br />
+										<strong>{{ lang('REPUTATION') }}{{ lang('COLON') }}</strong> {{ top.REP}}
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+		{% else %}
+			Sin toplist
+		{% endfor %}
+	{% endif %}
+	</div>
+</div>
