@@ -39,5 +39,6 @@ $lang = array_merge($lang, array(
 	'ADD_REP'   			=> 'Aumentar reputación',
 	'REM_REP'   			=> 'Disminuir reputación',
 	'ADD_OR_DEL_REP'		=> '<strong>%s</strong> la reputación del usuario.<br />',
-	'TOP_LIST_TITLE'		=>	'Lista de usuarios con mas reputación',
+	'TOP_LIST_TITLE'		=> 'Lista de usuarios con mas reputación',
+	'NO_COMMENT'			=> 'No hay comentarios',
 ));

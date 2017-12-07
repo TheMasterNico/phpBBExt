@@ -1,0 +1,78 @@
+<dl>
+	<dt>
+		<label for="can_rep">Sistema de reputación{{ L_COLON }}</label><br />
+		<span>Elige si este usuario puede usar el sistema de reputación</span>
+	</dt>
+	<dd>
+		<label>
+			<input type="radio" class="radio" name="can_rep" value="1" {% if USER_REP_ENABLE %} id="can_rep" checked="checked"{% endif %} /> {L_YES}
+		</label>
+		<label>
+			<input type="radio" class="radio" name="can_rep" value="0" {% if not USER_REP_ENABLE %} id="can_rep" checked="checked"{% endif %}/> {L_NO}
+		</label>
+	</dd>
+</dl>
+<dl>
+	<dt>
+		<label for="count_rep">Cantidad de reputación{{ L_COLON }}</label><br />
+		<span>Trata de no modificar este campo. Al eliminar los comentarios la reputación aumenta o disminuye automáticamente</span>
+	</dt>
+	<dd>
+		<label>
+			<input type="number" name="count_rep" value="{{ USER_REP }}" id="count_rep" />
+		</label>
+	</dd>
+</dl>
+
+<dl>
+	<dt>
+		<label for="comentarios">Comentarios de reputación{{ L_COLON }}</label><br />
+		<span>
+			Elimina los comentarios de la reputación del usuario. <strong>No hay vuelta atras</strong><br />
+			Al eliminar los comentarios se modifica automáticamente la cantidad de rep
+		</span>
+	</dt>
+	<dd>
+		<label>
+			<details>
+				<summary>
+					Mostrar comentarios
+				</summary>
+				<br />
+				<input type="hidden" value="{{ COUNT_COMM }}" name="cantidad"  />
+				{% if loops.reputation_acp %}
+					{% for reputation in loops.reputation_acp %}
+					<div>
+						<p>
+							<a class="unread" href="{{ BOARD_URL }}viewtopic.php?p={{ reputation.POST }}#p{{ reputation.POST }}">
+								<i class="icon fa-file fa-fw icon-md" aria-hidden="true"></i>
+								<span class="sr-only"></span>
+							</a>
+							{% if reputation.ACTION == 1 %}+{% else %}-{% endif %}{{ reputation.POWER }}
+							<span>
+								{{ lang('POST_BY_AUTHOR') }}
+								<strong>{{ reputation.USERNAME }}</strong> &raquo;
+							</span>
+							{{ reputation.TIME }}
+							&laquo;&laquo;
+							Eliminar{{ L_COLON }}
+							<input type="checkbox" name="Comentario-{{ reputation.COUNT }}" value="{{ reputation.REP_ID }}" />
+							<input type="hidden" name="SumarORestar-{{ reputation.COUNT }}" value="{{ reputation.ACTION }}" />
+							<input type="hidden" name="CantidadSOR-{{ reputation.COUNT }}" value="{{ reputation.POWER }}" />
+						</dt>
+						<p style="border-bottom: 1px dotted black;">
+							{{ reputation.COMENTARIO }}
+						</p>
+					</div>
+					{% endfor %}
+				{% endif %}
+				{# ---------------------------------------------------------- #}
+				{% if COUNT_COMM == 0 %}
+					<p>
+						{{ lang('NO_COMMENT')}}
+					</p>
+				{% endif %}
+			</details>
+		</label>
+	</dd>
+</dl>

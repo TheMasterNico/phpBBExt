@@ -13,5 +13,6 @@ services:
             - @dbal.conn
             - @user
             - @template
+            - @request
         tags:
             - { name: event.listener }

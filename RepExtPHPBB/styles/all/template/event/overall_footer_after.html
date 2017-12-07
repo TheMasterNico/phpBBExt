@@ -67,7 +67,7 @@ function SendRep(AddorRem, PosterID, TopicID, SenderName, ForumID, PostID)
 	}
 	//console.log( 'textarea[id="' + getTextAreaID + PosterID +'"][post="'+ PostID +'"]'  );
 	var mensaje = $('textarea[id="' + getTextAreaID + PosterID +'"][post="'+ PostID +'"]').val();
-	if(mensaje == "")
+	if(mensaje == "" || mensaje.length < 20)
 	{
 		$('textarea[id="' + getTextAreaID + PosterID +'"][post="'+ PostID +'"]').parent().addClass("has-error");
 		return;
