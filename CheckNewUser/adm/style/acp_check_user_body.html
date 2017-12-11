@@ -1,0 +1,267 @@
+{#
+	SI NO FUNCIONAN LAS OPCIONES DEL BAN Y ACTUALIZASTE EL FORO A UNA NUEVA VERSION. PUEDE QUE NECESITES
+	ACTUALIZAR EL ARCHIVO UCP.PHP AGREGANDO ESTOS NUEVOS MODOS ARRIBA DEL 'ACTIVATE'
+
+	SI es necesario en el futuro crea lo de controlling & routes para hacer lo de abajo
+
+	case 'banip':
+		if($user->data['user_id'] != ANONYMOUS && $auth->acl_get('a_'))
+		{
+			$Baneado = user_ban('ip', $request->variable('ip', ''), 0, '', false, 'Multicuenta', 'Muchas cuentas con la misma IP');
+			echo $Baneado;
+		}
+	break;
+	case 'banname':
+		if($user->data['user_id'] != ANONYMOUS && $auth->acl_get('a_'))
+		{
+			$Baneado = user_ban('user', $request->variable('name', ''), 0, '', false, 'Nombre inapropiado', 'Tu nombre no es adecuado');
+			echo $Baneado;
+		}
+	break;
+	case 'banmail':
+		if($user->data['user_id'] != ANONYMOUS && $auth->acl_get('a_'))
+		{
+			$Baneado = user_ban('email', $request->variable('mail', ''), 0, '', false, 'EMail incorrecto', 'El email de registro es incorrecto');
+			echo $Baneado;
+		}
+	break;
+#}
+
+{% include 'overall_header.html' %}
+
+<textarea style="display:none" id="myTextarea" name="something">This text gets removed</textarea>
+<h1>{{lang('ACP_CHECK_USER')}}</h1>
+
+<p>{{lang('ACTIVAR_EXPLAIN')}}</p>
+
+<form id="acp_activar" method="post" action="{U_ACTION}">
+	<fieldset>
+		<legend>{{lang('START_ACTIVAR')}}</legend>
+		<input type="text" style="display:none" name="max" value="{S_MAX_USERS}">
+
+		<table border='1'>
+			<tr>
+				<th rowspan="3">{{lang('ACT_NOMBRE')}}</th>
+				<th rowspan="3">{{lang('ACT_MAIL')}}</th>
+				<th rowspan="3">{{lang('ACT_REGISTER')}}</th>
+				<th rowspan="3">{{lang('ACT_SAME_IP')}}</th>
+				<th colspan="4" style="text-align: center;">{{lang('ACT_OPTIONS')}}</th>
+			</tr>
+			<tr>
+				<th rowspan="2">
+					Activar
+				</th>
+				<th colspan="3" style="text-align: center;">
+					Expulsar
+				</th>
+			</tr>
+			<tr>
+				<th>
+					Nombre
+				</th>
+				<th>
+					Correo
+				</th>
+				<th>
+					IP
+				</th>
+			</tr>
+			{{ LISTA_USUARIOS_PENDIENTES }}
+		</table>
+	</fieldset>
+</form>
+<fieldset class="submit-buttons"> <!-- Acá no funciona -->
+	<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;	{S_FORM_TOKEN}
+</fieldset>
+
+
+{% include 'overall_footer.html' %}
+{#
+<script>
+	$("input:checkbox").on('click', function()
+		{
+			var $box = $(this);
+			if ($box.is(":checked"))
+			{
+				//console.log("Se checkeo "+$box.attr('id'))
+				var groupexp = "input:checkbox[flag=\"Exp[" + $box.attr("id_user") + "]\"]";
+				var actv = "input:checkbox[flag=\"Act[" + $box.attr("id_user") + "]\"]";
+				if($box.attr('id') == "Nombre" || $box.attr('id') == "Correo" || $box.attr('id') == "IP")
+				{
+					//console.log("Es Nombre, Correo o IP")
+					$(actv).prop("checked", false);
+				}
+				else if($box.attr('id') == "Activar")
+				{
+					//console.log("Es Activar")
+					$(groupexp).prop("checked", false);
+				}
+				$box.prop("checked", true);
+			}
+			else
+			{
+				$box.prop("checked", false);
+			}
+		}
+	);
+</script>
+#}
+<script>
+	{#
+	$("input:submit[id=submit]").on('click', function()
+		{
+			//Da click al botón de Enviar
+			//Procedemos a Activar los usuarios que hay que activar
+			var poractivar = [];
+			$("input:checkbox[id='Nombre']").each(function() {
+			   if ($(this).is(":checked")) {
+			       poractivar.push($(this).attr('value'));
+			   }
+			});
+			console.log(poractivar);
+
+			//Procedemos a expulsar los usuarios que hay que expulsar
+			//Por Nombre
+
+			//Por Correo
+
+			//Por IP
+		}
+	);
+	#}
+	var net = new Object();
+
+    net.READY_STATE_UNINITIALIZED=0;
+    net.READY_STATE_LOADING=1;
+    net.READY_STATE_LOADED=2;
+    net.READY_STATE_INTERACTIVE=3;
+    net.READY_STATE_COMPLETE=4;
+
+    net.CargadorContenidos = function(url, funcion, funcionError, metodo, parametros, contentType) {
+        this.url = url;
+        this.req = null;
+        this.onload = funcion;
+        this.onerror = (funcionError) ? funcionError : this.defaultError;
+        this.cargaContenidoXML(url, metodo, parametros, contentType);
+    }
+
+    net.CargadorContenidos.prototype = {
+        cargaContenidoXML: function(url, metodo, parametros, contentType) {
+            if(window.XMLHttpRequest) {
+                this.req = new XMLHttpRequest();
+            }
+            else if(window.ActiveXObject) {
+                this.req = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            if(this.req) {
+                try {
+                    var loader = this;
+                    this.req.onreadystatechange = function() {
+                        loader.onReadyState.call(loader);
+                    }
+                    this.req.open(metodo, url, true);
+                    if(contentType) {
+                        this.req.setRequestHeader("Content-Type", contentType);
+                    }
+                    this.req.send(parametros);
+                } catch(err) {
+                    this.onerror.call(this);
+                }
+            }
+        },
+
+        onReadyState: function() {
+            var req = this.req;
+            var ready = req.readyState;
+            if(ready == net.READY_STATE_COMPLETE) {
+                var httpStatus = req.status;
+                if(httpStatus == 200 || httpStatus == 0) {
+                    this.onload.call(this);
+                }
+                else {
+                    this.onerror.call(this);
+                }
+            }
+        },
+
+        defaultError: function() {
+            alert("Se ha producido un error al obtener los datos"
+                  + "\n\nreadyState:" + this.req.readyState
+                  + "\nstatus: " + this.req.status
+                  + "\nheaders: " + this.req.getAllResponseHeaders());
+        }
+    }
+
+	var Activado = [];
+	$("input:checkbox").on('click', function()
+		{
+			if($(this).is(":checked")) {# Lo marcó #}
+			{
+				var id_user = $(this).attr('id_user');
+				var actkey  = $(this).attr('actkey');
+				var action = this.id;
+				var valor = $(this).attr('value');
+				//console.log("id_user: "+id_user+"--Actkey: "+actkey+" ID element: "+action);
+
+				var $box = $(this);
+				//console.log(Activado);
+				{# Siempre vamos a activar al usuario, si o si #}
+				if(Activado[id_user] != 25) // No esta activado. Lo activaremos
+				{
+					//console.log("Activando usuario");
+					console.log("{{BOARD_URL}}ucp.php?mode=activate&u="+id_user+"&k="+actkey);
+					new net.CargadorContenidos("{{BOARD_URL}}ucp.php?mode=activate&u="+id_user+"&k="+actkey, function() {
+						if(this.req.responseText.search("La cuenta ha sido activada") != -1)
+						{
+							Activado[id_user] = 25;
+							{# Eliminamos el checkbox de Activar#}
+							$("#Act-"+id_user).css('background','green'); {# Coloreamos el td de activar #}
+							$("input:checkbox[name='Activar["+id_user+"]']").css('display','none'); {#y lo ocultamos #}
+							BanSelect(action,id_user,valor,$box); // La función comprueba si es para banear o no
+						} else {
+							//document.getElementById("row-"+id).style.background = "purple";
+						}
+					}, null, "GET", null, "application/x-www-form-urlencoded");
+				}
+				else { // Ya esta activado, y si le dio de nuevo al td es por un ban
+					BanSelect(action,id_user,valor,$box);
+				}
+			}
+		}
+	);
+	function BanSelect(action,id_user,valor,box)
+	{
+		{# Baneos #}
+		var ban = 0;
+		var mode = '';
+		var flagban = '';
+		if(action == "Nombre")
+		{
+			ban = 1; mode = 'banname'; flagban = 'name';
+		}
+		else if(action == "Correo")
+		{
+			ban = 1; mode = 'banmail'; flagban = 'mail';
+		}
+		else if(action == "IP")
+		{
+			ban = 1; mode = 'banip'; flagban = 'ip';
+		}
+		//console.log(action)
+		if(ban == 1)
+		{
+			//console.log("Baneando");
+			//console.log("http://pawnscript.com/foro/ucp.php?mode="+mode+"&u="+id_user+"&"+flagban+"="+valor);
+			new net.CargadorContenidos("{{BOARD_URL}}ucp.php?mode="+mode+"&u="+id_user+"&"+flagban+"="+valor, function() {
+				if(this.req.responseText.search("1") != -1)
+				{
+					box.css('display','none'); {# Ocultamos el checkbox seleccionado #}
+					box.parent().css('background','red'); {# y coloreamos el td del mismo #}
+				} else {
+					//document.getElementById("row-"+id).style.background = "blue";
+				}
+			}, null, "GET", null, "application/x-www-form-urlencoded");
+		}
+	}
+</script>

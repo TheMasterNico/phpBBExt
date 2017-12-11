@@ -1,0 +1,27 @@
+{
+    "name": "TheMasterNico/CheckNewUser",
+    "type": "phpbb-extension",
+    "description": "Activar nuevos usuarios registrados",
+    "homepage": "pawnscript.com",
+    "version": "1.2.0-dev",
+    "time": "2017-10-05",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Nicolas Castillo",
+            "email": "nscastillo.h@gmail.com",
+            "homepage": "pawnscript.com",
+            "role": "Programador"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "composer/installers": "~1.0"
+    },
+    "extra": {
+        "display-name": "Check New User",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.1.4,<3.2.0@dev"
+        }
+    }
+}

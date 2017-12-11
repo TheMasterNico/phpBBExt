@@ -1,0 +1,9 @@
+services:
+    TheMasterNico.CheckNewUser.listener:
+        class: TheMasterNico\CheckNewUser\event\main_listener
+        arguments:
+            - @dbal.conn
+            - @controller.helper
+            - @request
+        tags:
+            - { name: event.listener }
