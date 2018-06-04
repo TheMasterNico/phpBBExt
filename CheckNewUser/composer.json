@@ -3,7 +3,7 @@
     "type": "phpbb-extension",
     "description": "Activar nuevos usuarios registrados",
     "homepage": "pawnscript.com",
-    "version": "1.2.0-dev",
+    "version": "1.1.0-dev",
     "time": "2017-10-05",
     "license": "GPL-2.0",
     "authors": [

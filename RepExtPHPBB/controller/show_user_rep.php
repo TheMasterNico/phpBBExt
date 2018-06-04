@@ -87,8 +87,10 @@ class show_user_rep
 				trigger_error("You shall not pass");
 			}
 
+			$this->template->assign_var('PUEDE_REPUTEAR', 0); // En 0 puede enviar la rep
+
 			//Obtenemos el user_id del que envia la rep
-			$GetIDSQL = 'SELECT user_id
+			$GetIDSQL = 'SELECT user_id, user_rep_last_used
 				FROM ' . USERS_TABLE . '
 				WHERE ' . $this->db->sql_build_array('SELECT', array(
 					'username'     => $username,
@@ -96,8 +98,13 @@ class show_user_rep
 			);
 			$Result = $this->db->sql_query_limit($GetIDSQL, 1);
 			$user_id = (int) $this->db->sql_fetchfield('user_id', 0, $Result); // Obtenemos el dato del user_id de la consulta
+			$last_used = (int) $this->db->sql_fetchfield('user_rep_last_used', 0, $Result); // Tiempo de la ultimam vez que uso el sistema
 			$this->db->sql_freeresult($Result);
-
+			if($last_used+600 > time()) // Si no han pasado 5 minutos desde que uso el sistema
+			{
+				$this->template->assign_var('PUEDE_REPUTEAR', 1); // 1 significa que no han pasado 5 min
+				return $this->helper->render('view_members_rep.html', $username);
+			}
 
 
 
@@ -119,6 +126,10 @@ class show_user_rep
 
 			$addorrem = ($action)?('user_rep+1'):('user_rep-1'); // En caso de cambiar el rep_power, cambiar acá tambien
 			$UpdateSQL = 'UPDATE ' . USERS_TABLE . ' SET user_rep = '.$addorrem.' WHERE user_id = ' . $poster;
+			$this->db->sql_query($UpdateSQL);
+
+			// Actualizamos el tiempo en que uso la rep (El user que envia rep)
+			$UpdateSQL = 'UPDATE ' . USERS_TABLE . ' SET user_rep_last_used = '.time().' WHERE user_id = ' . $user_id;
 			$this->db->sql_query($UpdateSQL);
 
 

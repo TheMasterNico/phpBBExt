@@ -94,7 +94,7 @@ function SendRep(AddorRem, PosterID, TopicID, SenderName, ForumID, PostID)
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				{# si hay un error mostramos un mensaje #}
-				console.log('Tenemos problemas Houston');
+				console.log('Tenemos problemas Houston!!');
 				console.log(jqXHR);
 				console.log(textStatus);
 				console.log(errorThrown);
@@ -103,6 +103,13 @@ function SendRep(AddorRem, PosterID, TopicID, SenderName, ForumID, PostID)
 			success: function (responseText, textStatus, jqXHR) {
 				console.log('Actualziando rep.');
 				//console.log(responseText);
+				var CanUpdate = $(responseText).find('PuedeUsarRep').text();
+				console.log(CanUpdate);
+				if(CanUpdate == 1) // No han pasado 5 minutos;
+				{
+					alert("No puedes usar el sistema tan seguido");
+					return 1;
+				}
 				var isUpdate = $(responseText).find('pandemia').text();
 				var NewRep = $(responseText).find('garo').text();
 				console.log("data: " + isUpdate + ':-:' + NewRep);

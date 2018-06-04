@@ -55,7 +55,7 @@ class main_listener implements EventSubscriberInterface
 			'core.memberlist_prepare_profile_data'			=> 'get_user_rep_data', // Solo en el memberlist
 			'core.viewtopic_cache_user_data'				=> 'get_rep_data_from_db',
 			'core.viewtopic_modify_post_row'				=> 'post_row_reputation', // En los mensajes del tema
-			'core.modify_user_rank'							=>	'change_user_rank',
+			'core.modify_user_rank'							=> 'change_user_rank',
 			'core.index_modify_page_title'					=> 'show_top_list',
 			'core.acp_users_overview_before'				=> 'acp_user_can_rep',
 			'core.acp_users_overview_modify_data'			=> 'modificar_data_sql'
@@ -209,11 +209,15 @@ class main_listener implements EventSubscriberInterface
 
 		$this->TheUserID = $event['user_data']['user_id'];
 		$this->UserRepEnable = $event['user_data']['user_rep_enable'];
+		$this->UserRepLastUsed = $event['user_data']['user_rep_last_used'];
 		$this->MaxTopList = $event['user_data']['user_rep_toplist_count'];
 
 
 		$this->template->assign_vars(array(
-			'CAN_REP_OTHERS'   => $this->UserRepEnable,
+			'CAN_REP_OTHERS'	=> $this->UserRepEnable,
+			'REP_LAST_TIME'		=> $this->UserRepLastUsed,
+			'MY_USER_ID'		=> $this->TheUserID,
+			'ACTUAL_TIME'		=> time(),
 			)
 		);
 

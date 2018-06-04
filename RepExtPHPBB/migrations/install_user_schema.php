@@ -19,7 +19,7 @@ class install_user_schema extends \phpbb\db\migration\migration
 
 	static public function depends_on()
 	{
-		return array('\phpbb\db\migration\data\v32x\v321');
+		return array('\phpbb\db\migration\data\v32x\v322');
 	}
 	/*
 		Modificamos la tabla de usuario y creamos nuevas tablas
@@ -60,6 +60,7 @@ class install_user_schema extends \phpbb\db\migration\migration
 					'user_rep_notification'		=> array('BOOL', 1), // Notificación por el sistema de notificación
 					'user_rep_toplist'			=> array('BOOL', 1), // Quiere ver el top list
 					'user_rep_toplist_count'	=> array('TINT:2', 5), // Cantidad de usuarios en el top list
+					'user_rep_last_used' 		=> array('TIMESTAMP', 0), // Time, ultima vez de uso de la rep
 				),
 			),
 		);
